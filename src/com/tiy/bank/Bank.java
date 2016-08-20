@@ -10,6 +10,10 @@ import java.util.Scanner;
 public class Bank {
 
 	private String bankName = "Bank of Rounding Errors";
+	BankAccount myChecking = new Checking();
+	BankAccount mySavings = new Savings();
+	BankAccount myRetirement = new Retirement();
+	BankCustomer myCustomer = new BankCustomer("Brett");
 
 	public String getBankName() {
 
@@ -33,13 +37,16 @@ public class Bank {
 			System.out.println("Please name your account");
 			String acctName = inputScanner.nextLine();
 			Checking myChecking = new Checking();
+			myChecking.setAccountName(acctName);
 			System.out.println("How much money would you like to put into your account?");
 			initialDeposit = Double.valueOf(inputScanner.nextLine());
 			myChecking.setBalance(initialDeposit);
+			System.out.println(myChecking.getBalance());
 		} else if (accountChoice == 2) {
 			System.out.println("Please name your account");
 			String acctName = inputScanner.nextLine();
 			Savings mySavings = new Savings();
+			mySavings.setAccountName(acctName);
 			System.out.println("How much money would you like to put into your account?");
 			initialDeposit = Double.valueOf(inputScanner.nextLine());
 			mySavings.setBalance(initialDeposit);
@@ -47,6 +54,7 @@ public class Bank {
 			System.out.println("Please name your account");
 			String acctName = inputScanner.nextLine();
 			Retirement myRetirement = new Retirement();
+			myRetirement.setAccountName(acctName);
 			System.out.println("How much money would you like to put into your account?");
 			initialDeposit = Double.valueOf(inputScanner.nextLine());
 			myRetirement.setBalance(initialDeposit);
@@ -63,20 +71,34 @@ public class Bank {
 
 	public void printInfo() {
 		System.out.println(getBankName());
+		System.out.println(myCustomer.getName());
+
+	}
+
+	public void accountInteract(){
 
 	}
 
 	public void saveBank (Bank bank) {
+		FileWriter bankWriter = null;
 		try {
 			File bankFile = new File("bank.txt");
-			FileWriter bankWriter = new FileWriter(bankFile);
-			bankWriter.write("Bank.name: " + getBankName());
-			bankWriter.write("Account holders: ");
-
+			bankWriter = new FileWriter(bankFile);
+			bankWriter.write("Bank.name: " + getBankName() + "\n");
+			bankWriter.write("Account holders " + myCustomer.getName() + "\n");
+			bankWriter.write("Accounts in Bank: " + myChecking.getAccountName() + " " + myChecking.getBalance() + "\n");
 			bankWriter.close();
 		} catch (Exception exception){
 			System.out.println("Something happened D'=");
 			exception.printStackTrace();
+		} finally {
+			if(bankWriter != null) {
+				try {
+					bankWriter.close();
+				} catch (Exception ex){
+					ex.printStackTrace();
+				}
+			}
 		}
 	}
 }

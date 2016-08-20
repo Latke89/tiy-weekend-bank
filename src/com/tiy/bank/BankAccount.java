@@ -39,7 +39,6 @@ public abstract class BankAccount {
 	public void printInfo() {
 		System.out.println(getAccountName());
 		System.out.println(getBalance());
-
 	}
 
 	public void interest() {

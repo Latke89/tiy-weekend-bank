@@ -1,1 +1,3 @@
-Bank.name: Bank of Rounding ErrorsAccount holders: 
+Bank.name: Bank of Rounding Errors
+Account holders Brett
+Accounts in Bank: null 0.0

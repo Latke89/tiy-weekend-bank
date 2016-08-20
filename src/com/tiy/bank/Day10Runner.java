@@ -15,9 +15,10 @@ public class Day10Runner {
 		System.out.println("Welcome to " + myBank.getBankName() + ", how may we assist you?");
 
 
-		myBank.createAccount();
-
 		myBank.addCustomer();
+		myBank.createAccount();
+		myBank.myChecking.printInfo();
+		myBank.printInfo();
 
 
 
