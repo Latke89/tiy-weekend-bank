@@ -2,6 +2,7 @@ package com.tiy.bank;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -14,6 +15,7 @@ public class Bank {
 	BankAccount mySavings = new Savings();
 	BankAccount myRetirement = new Retirement();
 	BankCustomer myCustomer = new BankCustomer("Brett");
+	ArrayList<String> accountHolders = new ArrayList<String>();
 
 	public String getBankName() {
 
@@ -66,13 +68,11 @@ public class Bank {
 		String customerName;
 		System.out.println("Please enter your first name:");
 		customerName = inputScanner.nextLine();
-		BankCustomer myCustomer = new BankCustomer(customerName);
+		accountHolders.add(customerName);
 	}
 
 	public void printInfo() {
 		System.out.println(getBankName());
-		System.out.println(myCustomer.getName());
-
 	}
 
 	public void accountInteract(){
@@ -84,9 +84,10 @@ public class Bank {
 		try {
 			File bankFile = new File("bank.txt");
 			bankWriter = new FileWriter(bankFile);
-			bankWriter.write("Bank.name: " + getBankName() + "\n");
-			bankWriter.write("Account holders " + myCustomer.getName() + "\n");
-			bankWriter.write("Accounts in Bank: " + myChecking.getAccountName() + " " + myChecking.getBalance() + "\n");
+			bankWriter.write("Account Holders: ");
+			for (String names : accountHolders ){
+				bankWriter.write(names + ",");
+			}
 			bankWriter.close();
 		} catch (Exception exception){
 			System.out.println("Something happened D'=");
