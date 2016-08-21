@@ -16,7 +16,7 @@ public class Day10Runner {
 		while(true){
 			int menuChoice;
 			System.out.println("1.Add a customer");
-			System.out.println("2.Create and account");
+			System.out.println("2.Create an account");
 			System.out.println("3.Check Bank info");
 			System.out.println("========");
 			System.out.println("0.Exit");
@@ -28,6 +28,7 @@ public class Day10Runner {
 				myBank.createAccount();
 			}else if(menuChoice == 3) {
 				myBank.printInfo();
+				System.out.println("Total in deposits: " + myBank.getTotalInDeposits());
 			}else if(menuChoice == 0) {
 				myBank.writeBank(myBank);
 				break;

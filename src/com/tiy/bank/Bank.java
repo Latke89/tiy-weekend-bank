@@ -34,7 +34,7 @@ public class Bank {
 		System.out.println("3.Retirement");
 		accountChoice = Integer.valueOf(inputScanner.nextLine());
 		if (accountChoice == 1){
-			System.out.println("Please name your account");
+			System.out.println("Please name your Checking account");
 			String acctName = inputScanner.nextLine();
 			myHash.put(acctName, new Checking());
 			System.out.println("How much money would you like to put into your account?");
@@ -42,7 +42,7 @@ public class Bank {
 			myHash.get(acctName).setBalance(initialDeposit);
 			System.out.println(myHash.get(acctName).getBalance());
 		} else if (accountChoice == 2) {
-			System.out.println("Please name your account");
+			System.out.println("Please name your Savings account");
 			String acctName = inputScanner.nextLine();
 			myHash.put(acctName, new Savings());
 			System.out.println("How much money would you like to put into your account?");
@@ -50,7 +50,7 @@ public class Bank {
 			myHash.get(acctName).setBalance(initialDeposit);
 			System.out.println(myHash.get(acctName).getBalance());
 		}else if (accountChoice == 3) {
-			System.out.println("Please name your account");
+			System.out.println("Please name your Retirement account");
 			String acctName = inputScanner.nextLine();
 			myHash.put(acctName, new Retirement());
 			System.out.println("How much money would you like to put into your account?");
@@ -60,12 +60,24 @@ public class Bank {
 		}
 	}
 
+	public void interact() {
+
+	}
+
 	public void addCustomer() {
 		Scanner inputScanner = new Scanner(System.in);
 		String customerName;
 		System.out.println("Please enter your first name:");
 		customerName = inputScanner.nextLine();
 		accountHolders.add(customerName);
+	}
+
+	public double getTotalInDeposits() {
+		double total = 0.0;
+		for (HashMap.Entry<String, BankAccount> currAcct : myHash.entrySet()) {
+			total += currAcct.getValue().getBalance();
+		}
+		return total;
 	}
 
 	public void printInfo() {
@@ -78,6 +90,7 @@ public class Bank {
 	}
 
 	public void accountInteract(){
+		System.out.println("Which account would you like to choose?");
 
 	}
 
