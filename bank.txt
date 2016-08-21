@@ -1,2 +1,3 @@
-Bank.name: Bank of Rounding Errors
-Account Holders: Brett,Jimmy,John,
+Account Holders: 
+Accounts in Bank: 
+TIY Funds : 13000.0My Checking : 2332.52My pitiful Retirement Account : 5.0

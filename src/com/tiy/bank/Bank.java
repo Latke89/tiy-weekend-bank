@@ -3,6 +3,7 @@ package com.tiy.bank;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -11,11 +12,8 @@ import java.util.Scanner;
 public class Bank {
 
 	private String bankName = "Bank of Rounding Errors";
-	BankAccount myChecking = new Checking();
-	BankAccount mySavings = new Savings();
-	BankAccount myRetirement = new Retirement();
-	BankCustomer myCustomer = new BankCustomer("Brett");
 	ArrayList<String> accountHolders = new ArrayList<String>();
+	HashMap<String, BankAccount> myHash = new HashMap<String, BankAccount>();
 
 	public String getBankName() {
 
@@ -38,28 +36,27 @@ public class Bank {
 		if (accountChoice == 1){
 			System.out.println("Please name your account");
 			String acctName = inputScanner.nextLine();
-			Checking myChecking = new Checking();
-			myChecking.setAccountName(acctName);
+			myHash.put(acctName, new Checking());
 			System.out.println("How much money would you like to put into your account?");
 			initialDeposit = Double.valueOf(inputScanner.nextLine());
-			myChecking.setBalance(initialDeposit);
-			System.out.println(myChecking.getBalance());
+			myHash.get(acctName).setBalance(initialDeposit);
+			System.out.println(myHash.get(acctName).getBalance());
 		} else if (accountChoice == 2) {
 			System.out.println("Please name your account");
 			String acctName = inputScanner.nextLine();
-			Savings mySavings = new Savings();
-			mySavings.setAccountName(acctName);
+			myHash.put(acctName, new Savings());
 			System.out.println("How much money would you like to put into your account?");
 			initialDeposit = Double.valueOf(inputScanner.nextLine());
-			mySavings.setBalance(initialDeposit);
+			myHash.get(acctName).setBalance(initialDeposit);
+			System.out.println(myHash.get(acctName).getBalance());
 		}else if (accountChoice == 3) {
 			System.out.println("Please name your account");
 			String acctName = inputScanner.nextLine();
-			Retirement myRetirement = new Retirement();
-			myRetirement.setAccountName(acctName);
+			myHash.put(acctName, new Retirement());
 			System.out.println("How much money would you like to put into your account?");
 			initialDeposit = Double.valueOf(inputScanner.nextLine());
-			myRetirement.setBalance(initialDeposit);
+			myHash.get(acctName).setBalance(initialDeposit);
+			System.out.println(myHash.get(acctName).getBalance());
 		}
 	}
 
@@ -72,22 +69,32 @@ public class Bank {
 	}
 
 	public void printInfo() {
+		int counter = 1;
 		System.out.println(getBankName());
+		for(HashMap.Entry<String, BankAccount> entry : myHash.entrySet()) {
+			System.out.println(counter++ + " - " + entry.getKey() + " : " + entry.getValue().getBalance() );
+		}
+
 	}
 
 	public void accountInteract(){
 
 	}
 
-	public void saveBank (Bank bank) {
+	public void writeBank (Bank bank) {
 		FileWriter bankWriter = null;
 		try {
 			File bankFile = new File("bank.txt");
 			bankWriter = new FileWriter(bankFile);
-			bankWriter.write("Account Holders: ");
+			bankWriter.write("Account Holders: \n");
 			for (String names : accountHolders ){
 				bankWriter.write(names + ",");
 			}
+			bankWriter.write("Accounts in Bank: \n");
+			for(HashMap.Entry<String, BankAccount> entry : myHash.entrySet()) {
+				bankWriter.write(entry.getKey() + " : " + entry.getValue().getBalance() + "\n");
+			}
+
 			bankWriter.close();
 		} catch (Exception exception){
 			System.out.println("Something happened D'=");
@@ -102,4 +109,18 @@ public class Bank {
 			}
 		}
 	}
+
+//	public void readBank() {
+//		File bankFile = new File("bank.txt");
+//		Scanner fileScanner = new Scanner(bankFile);
+//		ArrayList<String> accountHolders = null;
+//		while (fileScanner.hasNext()) {
+//			String currentLine = fileScanner.nextLine();
+//			if (currentLine.startsWith("Account"))
+//			{
+//				currentLine = currentLine.split(",")[1];
+//			}
+//
+//		}
+//	}
 }

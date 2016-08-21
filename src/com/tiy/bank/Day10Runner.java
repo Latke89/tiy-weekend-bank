@@ -29,19 +29,19 @@ public class Day10Runner {
 			}else if(menuChoice == 3) {
 				myBank.printInfo();
 			}else if(menuChoice == 0) {
+				myBank.writeBank(myBank);
 				break;
 			}
 		}
 
 //		myBank.addCustomer();
 //		myBank.createAccount();
-//		myBank.myChecking.printInfo();
 //		myBank.printInfo();
 
 
 
 
-		myBank.saveBank(myBank);
+		myBank.writeBank(myBank);
 
 
 
