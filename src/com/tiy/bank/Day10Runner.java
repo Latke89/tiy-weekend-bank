@@ -3,7 +3,7 @@ package com.tiy.bank;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
-
+import java.util.HashMap;
 /**
  * Created by Brett on 8/19/16.
  */
@@ -18,6 +18,7 @@ public class Day10Runner {
 			System.out.println("1.Add a customer");
 			System.out.println("2.Create an account");
 			System.out.println("3.Check Bank info");
+			System.out.println("4.Interact");
 			System.out.println("========");
 			System.out.println("0.Exit");
 			System.out.println("========");
@@ -29,6 +30,8 @@ public class Day10Runner {
 			}else if(menuChoice == 3) {
 				myBank.printInfo();
 				System.out.println("Total in deposits: " + myBank.getTotalInDeposits());
+			}else if(menuChoice == 4) {
+				myBank.accountInteract();
 			}else if(menuChoice == 0) {
 				myBank.writeBank(myBank);
 				break;

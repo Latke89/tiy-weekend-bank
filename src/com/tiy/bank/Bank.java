@@ -14,6 +14,7 @@ public class Bank {
 	private String bankName = "Bank of Rounding Errors";
 	ArrayList<String> accountHolders = new ArrayList<String>();
 	HashMap<String, BankAccount> myHash = new HashMap<String, BankAccount>();
+	Scanner inputScanner = new Scanner(System.in);
 
 	public String getBankName() {
 
@@ -27,7 +28,6 @@ public class Bank {
 	public void createAccount() {
 		int accountChoice;
 		double initialDeposit;
-		Scanner inputScanner = new Scanner(System.in);
 		System.out.println("Please choose an account to open");
 		System.out.println("1.Checking");
 		System.out.println("2.Savings");
@@ -60,12 +60,8 @@ public class Bank {
 		}
 	}
 
-	public void interact() {
-
-	}
 
 	public void addCustomer() {
-		Scanner inputScanner = new Scanner(System.in);
 		String customerName;
 		System.out.println("Please enter your first name:");
 		customerName = inputScanner.nextLine();
@@ -90,8 +86,70 @@ public class Bank {
 	}
 
 	public void accountInteract(){
-		System.out.println("Which account would you like to choose?");
 
+		while (true) {
+			System.out.println("Which account would you like to choose?");
+			System.out.println("Type \"exit\" to exit\n");
+			for (String accountName : myHash.keySet()) {
+				System.out.println(accountName);
+			}
+
+			String userChoice = inputScanner.nextLine();
+			System.out.println("You chose " + userChoice);
+			if (userChoice == null || userChoice.equals("exit")) {
+				break;
+			}
+
+			BankAccount userChosenAccount = myHash.get(userChoice);
+			if(userChosenAccount == null) {
+				System.out.println("Unknown Account beep boop beep");
+			} else {
+				while(true) {
+					System.out.println("What would you like to do?");
+					System.out.println("1.Deposit");
+					System.out.println("2.Withdraw");
+					System.out.println("3.Print Info");
+					System.out.println("4.Transfer between accounts");
+					System.out.println("========");
+					System.out.println("0.Exit");
+					System.out.println("========");
+					int bankingChoice = Integer.valueOf(inputScanner.nextLine());
+					if(bankingChoice == 1) {
+						System.out.println("How much would you like to deposit?\n");
+						double deposit = Double.valueOf(inputScanner.nextLine());
+						userChosenAccount.deposit(deposit);
+					} else if(bankingChoice == 2) {
+						System.out.println("How much would you like to withdraw?\n");
+						double withdraw = Double.valueOf(inputScanner.nextLine());
+						userChosenAccount.withdraw(withdraw);
+					}else if(bankingChoice == 3) {
+						userChosenAccount.printInfo();
+					}else if(bankingChoice == 4) {
+						System.out.println("How much would you like to transfer?\n");
+						double toTransfer = Double.valueOf(inputScanner.nextLine());
+						System.out.println("Which account would you like to transfer to?\n");
+						for (String accountName : myHash.keySet()) {
+							System.out.println(accountName);
+						}
+						String transferChoice = inputScanner.nextLine();
+						System.out.println("We will transfer to " + transferChoice);
+						BankAccount transferAccount = myHash.get(transferChoice);
+						if(transferAccount == null) {
+							System.out.println("Beep Boop Beep Something happened\n");
+							break;
+						} else {
+							userChosenAccount.withdraw(toTransfer);
+							transferAccount.deposit(toTransfer);
+							System.out.println("Transfer complete \n");
+						}
+
+
+					}else if(bankingChoice == 0) {
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	public void writeBank (Bank bank) {
@@ -123,7 +181,7 @@ public class Bank {
 		}
 	}
 
-//	public void readBank() {
+	public void readBank() {
 //		File bankFile = new File("bank.txt");
 //		Scanner fileScanner = new Scanner(bankFile);
 //		ArrayList<String> accountHolders = null;
@@ -135,5 +193,5 @@ public class Bank {
 //			}
 //
 //		}
-//	}
+	}
 }
