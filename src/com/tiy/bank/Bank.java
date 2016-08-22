@@ -154,8 +154,11 @@ public class Bank {
 
 	public void writeBank (Bank bank) {
 		FileWriter bankWriter = null;
+		FileWriter accountWriter = null;
 		try {
 			File bankFile = new File("bank.txt");
+			File accountFile = new File("customer-name-accounts.txt");
+			accountWriter = new FileWriter(accountFile);
 			bankWriter = new FileWriter(bankFile);
 			bankWriter.write("Account Holders: \n");
 			for (String names : accountHolders ){
@@ -163,9 +166,9 @@ public class Bank {
 			}
 			bankWriter.write("Accounts in Bank: \n");
 			for(HashMap.Entry<String, BankAccount> entry : myHash.entrySet()) {
-				bankWriter.write(entry.getKey() + " : " + entry.getValue().getBalance() + "\n");
+				accountWriter.write(entry.getKey() + " : " + entry.getValue().getBalance() + "\n");
 			}
-
+			accountWriter.close();
 			bankWriter.close();
 		} catch (Exception exception){
 			System.out.println("Something happened D'=");
