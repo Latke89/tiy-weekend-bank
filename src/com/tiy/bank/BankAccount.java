@@ -41,7 +41,7 @@ public abstract class BankAccount {
 		System.out.println(getBalance());
 	}
 
-	public void interest() {
+	public double interest() {
 
 
 	}

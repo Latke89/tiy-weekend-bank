@@ -5,4 +5,8 @@ package com.tiy.bank;
  */
 public class Checking extends BankAccount {
 
+
+	public void interest() {
+		setBalance(getBalance() * 1.00);
+	}
 }
