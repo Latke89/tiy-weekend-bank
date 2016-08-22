@@ -1,9 +1,6 @@
 package com.tiy.bank;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.util.Scanner;
-import java.util.HashMap;
 /**
  * Created by Brett on 8/19/16.
  */

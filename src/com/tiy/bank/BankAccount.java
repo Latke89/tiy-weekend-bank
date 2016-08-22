@@ -3,7 +3,7 @@ package com.tiy.bank;
 /**
  * Created by Brett on 8/19/16.
  */
-public abstract class BankAccount {
+public abstract class BankAccount{
 
 	private String accountName;
 	private double balance = 0.00;
