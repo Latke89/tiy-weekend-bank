@@ -5,7 +5,8 @@ package com.tiy.bank;
  */
 public class Savings extends BankAccount {
 
-	public void interest() {
+	public double interest() {
 		setBalance(getBalance() * 1.05);
+		return getBalance();
 	}
 }

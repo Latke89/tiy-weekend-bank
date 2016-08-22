@@ -43,7 +43,7 @@ public abstract class BankAccount {
 
 	public double interest() {
 
-
+	return getBalance();
 	}
 
 
