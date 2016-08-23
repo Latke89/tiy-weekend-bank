@@ -5,9 +5,15 @@ package com.tiy.bank;
  */
 public class Retirement extends BankAccount {
 
+	private String accountName = "Retirement";
+
 
 	public double interest() {
 		setBalance(getBalance() * 1.10);
 		return getBalance();
 	}
+	public void setAccountName(String accountName) {
+		this.accountName = "Retirement";
+	}
+
 }

@@ -63,12 +63,11 @@ public class Bank {
 					initialDeposit = Double.valueOf(inputScanner.nextLine());
 					myCustomer.customerAccounts.get(acctName).setBalance(initialDeposit);
 					System.out.println(myCustomer.customerAccounts.get(acctName).getBalance());
-					while (true) {
-						SavingsThread mySavingsThread = new SavingsThread();
-						Thread newThread = new Thread(mySavingsThread);
-						mySavingsThread.run();
-						newThread.start();
-					}
+//					while (true) {
+//						SavingsThread mySavingsThread = new SavingsThread();
+//						Thread newThread = new Thread(mySavingsThread);
+//						newThread.start();
+//					}
 				} else if (accountChoice == 3) {
 					System.out.println("Please name your Retirement account");
 					String acctName = inputScanner.nextLine();
@@ -77,10 +76,10 @@ public class Bank {
 					initialDeposit = Double.valueOf(inputScanner.nextLine());
 					myCustomer.customerAccounts.get(acctName).setBalance(initialDeposit);
 					System.out.println(myCustomer.customerAccounts.get(acctName).getBalance());
-					while (true) {
-						RetireThread myRetireThread = new RetireThread();
-						myRetireThread.run(myCustomer.customerAccounts.get(acctName).interest());
-					}
+//					while (true) {
+//						RetireThread myRetireThread = new RetireThread();
+//						myRetireThread.run(myCustomer.customerAccounts.get(acctName).interest());
+//					}
 				}else if(accountChoice == 0){
 					break;
 				}
@@ -210,7 +209,7 @@ public class Bank {
 			bankWriter.write("Accounts in Bank: \n");
 			for (Customer myCustomer : accountHolders) {
 				for (HashMap.Entry<String, BankAccount> currAcct : myCustomer.customerAccounts.entrySet()) {
-					accountWriter.write(currAcct.getKey() + " : " + currAcct.getValue().getBalance() + "\n");
+					accountWriter.write("account.name=" + currAcct.getKey() + "\n" + "account.currentBalance=" + currAcct.getValue().getBalance() + "\n");
 				}
 			}
 			accountWriter.close();
