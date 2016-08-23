@@ -63,6 +63,12 @@ public class Bank {
 					initialDeposit = Double.valueOf(inputScanner.nextLine());
 					myCustomer.customerAccounts.get(acctName).setBalance(initialDeposit);
 					System.out.println(myCustomer.customerAccounts.get(acctName).getBalance());
+					while (true) {
+						SavingsThread mySavingsThread = new SavingsThread();
+						Thread newThread = new Thread(mySavingsThread);
+						mySavingsThread.run();
+						newThread.start();
+					}
 				} else if (accountChoice == 3) {
 					System.out.println("Please name your Retirement account");
 					String acctName = inputScanner.nextLine();
@@ -71,6 +77,10 @@ public class Bank {
 					initialDeposit = Double.valueOf(inputScanner.nextLine());
 					myCustomer.customerAccounts.get(acctName).setBalance(initialDeposit);
 					System.out.println(myCustomer.customerAccounts.get(acctName).getBalance());
+					while (true) {
+						RetireThread myRetireThread = new RetireThread();
+						myRetireThread.run(myCustomer.customerAccounts.get(acctName).interest());
+					}
 				}else if(accountChoice == 0){
 					break;
 				}
@@ -87,7 +97,6 @@ public class Bank {
 
 	public double getTotalInDeposits() {
 		double total = 0.0;
-//		for (HashMap.Entry<String, BankAccount> currAcct : myHash.entrySet())
 		for (Customer myCustomer : accountHolders) {
 			for (HashMap.Entry<String, BankAccount> currAcct : myCustomer.customerAccounts.entrySet()) {
 				total += currAcct.getValue().getBalance();
@@ -102,9 +111,7 @@ public class Bank {
 		for (Customer customer : accountHolders){
 			System.out.println(customer.getUserName());
 		}
-//		for(HashMap.Entry<String, BankAccount> entry : myHash.entrySet()) {
-//			System.out.println(counter++ + " - " + entry.getKey() + " : " + entry.getValue().getBalance() );
-//		}
+//
 		for (Customer myCustomer : accountHolders) {
 			for (HashMap.Entry<String, BankAccount> currAcct : myCustomer.customerAccounts.entrySet()) {
 				System.out.println(counter++ + " - " + currAcct.getKey() + " : " + currAcct.getValue().getBalance());
@@ -178,7 +185,8 @@ public class Bank {
 							userChosenAccount.withdraw(toTransfer);
 						transferAccount.deposit(toTransfer);
 						System.out.println("Transfer complete \n");
-					}	else if(bankingChoice == 0) {
+					}
+					else if(bankingChoice == 0) {
 							break;
 
 					}
