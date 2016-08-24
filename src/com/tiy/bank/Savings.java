@@ -5,12 +5,14 @@ package com.tiy.bank;
  */
 public class Savings extends BankAccount implements Runnable{
 
-	private String accountName = "Savings";
+	private String accountName;
+	private double balance;
+	private int type;
 
 	public Savings(String accountName, double balance, int type) {
-		this.setAccountName(getAccountName());
-		this.setBalance(getBalance());
-		this.setType(getType());
+		this.setAccountName(accountName);
+		this.setBalance(balance);
+		this.setType(type);
 
 		Thread savingsThread = new Thread(this);
 		savingsThread.start();
@@ -21,9 +23,6 @@ public class Savings extends BankAccount implements Runnable{
 		return getBalance();
 	}
 
-	public void setAccountName(String accountName) {
-		this.accountName = "Savings";
-	}
 
 	public void run() {
 		try {

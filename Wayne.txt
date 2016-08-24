@@ -1,0 +1,6 @@
+account.name=Your Checking
+account.currentBalance=300.0
+account.type=1
+account.name=Retirement that works
+account.currentbalance=1000.0
+account.type=3

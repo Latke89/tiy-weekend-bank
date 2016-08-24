@@ -7,12 +7,14 @@ public class Retirement extends BankAccount implements Runnable{
 
 
 
-	private String accountName = "Retirement";
+	private String accountName;
+	private double balance;
+	private int type;
 
 	public Retirement(String accountName, double balance, int type) {
-		this.setAccountName(getAccountName());
-		this.setBalance(getBalance());
-		this.setType(getType());
+		this.setAccountName(accountName);
+		this.setBalance(balance);
+		this.setType(type);
 
 		Thread retirementThread = new Thread(this);
 		retirementThread.start();
@@ -21,9 +23,6 @@ public class Retirement extends BankAccount implements Runnable{
 	public double interest() {
 		setBalance(getBalance() * 1.10);
 		return getBalance();
-	}
-	public void setAccountName(String accountName) {
-		this.accountName = "Retirement";
 	}
 
 	public void run() {

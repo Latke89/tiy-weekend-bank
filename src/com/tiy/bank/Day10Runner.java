@@ -19,7 +19,7 @@ public class Day10Runner {
 			System.out.println("1.Add a customer");
 			System.out.println("2.Create an account");
 			System.out.println("3.Check Bank info");
-			System.out.println("4.Interact");
+			System.out.println("4.Withdraw & Deposit");
 			System.out.println("========");
 			System.out.println("0.Exit");
 			System.out.println("========");

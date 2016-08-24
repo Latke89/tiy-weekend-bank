@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.StringJoiner;
 
 /**
  * Created by Brett on 8/19/16.
@@ -53,8 +54,6 @@ public class Bank {
 					System.out.println("How much money would you like to put into your account?");
 					initialDeposit = Double.valueOf(inputScanner.nextLine());
 					myCustomer.customerAccounts.put(acctName, new Checking(acctName, initialDeposit, 1));
-					myCustomer.customerAccounts.get(acctName).setBalance(initialDeposit);
-					myCustomer.customerAccounts.get(acctName).setType(1);
 					System.out.println(myCustomer.customerAccounts.get(acctName).getBalance());
 
 				} else if (accountChoice == 2) {
@@ -63,8 +62,6 @@ public class Bank {
 					System.out.println("How much money would you like to put into your account?");
 					initialDeposit = Double.valueOf(inputScanner.nextLine());
 					myCustomer.customerAccounts.put(acctName, new Savings(acctName, initialDeposit, 2));
-					myCustomer.customerAccounts.get(acctName).setBalance(initialDeposit);
-					myCustomer.customerAccounts.get(acctName).setType(2);
 					System.out.println(myCustomer.customerAccounts.get(acctName).getBalance());
 
 				} else if (accountChoice == 3) {
@@ -73,8 +70,6 @@ public class Bank {
 					System.out.println("How much money would you like to put into your account?");
 					initialDeposit = Double.valueOf(inputScanner.nextLine());
 					myCustomer.customerAccounts.put(acctName, new Retirement(acctName, initialDeposit, 3));
-					myCustomer.customerAccounts.get(acctName).setBalance(initialDeposit);
-					myCustomer.customerAccounts.get(acctName).setType(3);
 					System.out.println(myCustomer.customerAccounts.get(acctName).getBalance());
 
 				}else if(accountChoice == 0){
@@ -107,7 +102,7 @@ public class Bank {
 		for (Customer customer : accountHolders){
 			System.out.println(customer.getUserName());
 		}
-//
+
 		for (Customer myCustomer : accountHolders) {
 			for (HashMap.Entry<String, BankAccount> currAcct : myCustomer.customerAccounts.entrySet()) {
 				System.out.println(counter++ + " - " + currAcct.getKey() + " : " + currAcct.getValue().getBalance());
@@ -115,6 +110,7 @@ public class Bank {
 		}
 
 	}
+
 
 	public void accountInteract(){
 
@@ -226,15 +222,15 @@ public class Bank {
 
 	public void readBank(ArrayList<Customer> accountHolders) {
 		try {
-			HashMap<String, BankAccount> customerAccounts = new HashMap<String, BankAccount>();
+			HashMap<String, BankAccount> customerAccounts;//  = new HashMap<String, BankAccount>();
 			File bankFile = new File("bank.txt");
 			Scanner fileScanner = new Scanner(bankFile);
 			while(fileScanner.hasNext()){
 				String nextLine = fileScanner.nextLine();
 				String[] currName = nextLine.split(",");
 				for (String currentName : currName) {
-//					System.out.println(accountHolders.size());
 					Customer myCustomer = new Customer(currentName);
+					customerAccounts = new HashMap<String, BankAccount>();
 					accountHolders.add(myCustomer);
 					File accountFile = new File(currentName + ".txt");
 					Scanner accountScanner = new Scanner(accountFile);
@@ -260,22 +256,12 @@ public class Bank {
 						System.out.println("Recovered account!");
 
 					}
-
-
-
-
+					myCustomer.setCustomerAccounts(customerAccounts);
 				}
 			}
 
-//		while (fileScanner.hasNext()) {
-//			String currentLine = fileScanner.nextLine();
-//			if (currentLine.startsWith("Account"))
-//			{
-//				currentLine = currentLine.split(",")[1];
-//			}
-//
-//		}
 		} catch (IOException IoEx){
+			System.out.println("Now why would you do a thing like that?");
 			IoEx.printStackTrace();
 		}
 

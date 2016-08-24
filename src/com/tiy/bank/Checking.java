@@ -5,12 +5,16 @@ package com.tiy.bank;
  */
 public class Checking extends BankAccount {
 
-	private String accountName = "Checking";
+	private String accountName;
+	private double balance;
+	private int type;
+
+
 
 	public Checking(String accountName, double balance, int type) {
-		this.setAccountName(getAccountName());
-		this.setBalance(getBalance());
-		this.setType(getType());
+		setAccountName(accountName);
+		this.setBalance(balance);
+		this.setType(type);
 	}
 
 	public double interest() {
@@ -18,7 +22,4 @@ public class Checking extends BankAccount {
 		return getBalance();
 	}
 
-	public void setAccountName(String accountName) {
-		this.accountName = "Checking";
-	}
 }
