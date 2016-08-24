@@ -1,2 +1,1 @@
-Account Holders: 
-A,B,C,Accounts in Bank: 
+Wayne,Garth,

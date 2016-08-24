@@ -7,6 +7,11 @@ public class Checking extends BankAccount {
 
 	private String accountName = "Checking";
 
+	public Checking(String accountName, double balance, int type) {
+		this.setAccountName(getAccountName());
+		this.setBalance(getBalance());
+		this.setType(getType());
+	}
 
 	public double interest() {
 		setBalance(getBalance() * 1.00);

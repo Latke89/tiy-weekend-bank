@@ -2,6 +2,7 @@ package com.tiy.bank;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -13,7 +14,6 @@ public class Bank {
 
 	private String bankName = "Bank of Rounding Errors";
 	ArrayList<Customer> accountHolders = new ArrayList<Customer>();
-	HashMap<String, BankAccount> myHash = new HashMap<String, BankAccount>();
 	Scanner inputScanner = new Scanner(System.in);
 
 	public String getBankName() {
@@ -50,36 +50,33 @@ public class Bank {
 				if (accountChoice == 1) {
 					System.out.println("Please name your Checking account");
 					String acctName = inputScanner.nextLine();
-					myCustomer.customerAccounts.put(acctName, new Checking());
 					System.out.println("How much money would you like to put into your account?");
 					initialDeposit = Double.valueOf(inputScanner.nextLine());
+					myCustomer.customerAccounts.put(acctName, new Checking(acctName, initialDeposit, 1));
 					myCustomer.customerAccounts.get(acctName).setBalance(initialDeposit);
+					myCustomer.customerAccounts.get(acctName).setType(1);
 					System.out.println(myCustomer.customerAccounts.get(acctName).getBalance());
+
 				} else if (accountChoice == 2) {
 					System.out.println("Please name your Savings account");
 					String acctName = inputScanner.nextLine();
-					myCustomer.customerAccounts.put(acctName, new Savings());
 					System.out.println("How much money would you like to put into your account?");
 					initialDeposit = Double.valueOf(inputScanner.nextLine());
+					myCustomer.customerAccounts.put(acctName, new Savings(acctName, initialDeposit, 2));
 					myCustomer.customerAccounts.get(acctName).setBalance(initialDeposit);
+					myCustomer.customerAccounts.get(acctName).setType(2);
 					System.out.println(myCustomer.customerAccounts.get(acctName).getBalance());
-//					while (true) {
-//						SavingsThread mySavingsThread = new SavingsThread();
-//						Thread newThread = new Thread(mySavingsThread);
-//						newThread.start();
-//					}
+
 				} else if (accountChoice == 3) {
 					System.out.println("Please name your Retirement account");
 					String acctName = inputScanner.nextLine();
-					myCustomer.customerAccounts.put(acctName, new Retirement());
 					System.out.println("How much money would you like to put into your account?");
 					initialDeposit = Double.valueOf(inputScanner.nextLine());
+					myCustomer.customerAccounts.put(acctName, new Retirement(acctName, initialDeposit, 3));
 					myCustomer.customerAccounts.get(acctName).setBalance(initialDeposit);
+					myCustomer.customerAccounts.get(acctName).setType(3);
 					System.out.println(myCustomer.customerAccounts.get(acctName).getBalance());
-//					while (true) {
-//						RetireThread myRetireThread = new RetireThread();
-//						myRetireThread.run(myCustomer.customerAccounts.get(acctName).interest());
-//					}
+
 				}else if(accountChoice == 0){
 					break;
 				}
@@ -124,7 +121,6 @@ public class Bank {
 		while (true) {
 			int index = 1;
 			System.out.println("Which customer would you like to choose?");
-			System.out.println("Type \"exit\" to exit\n");
 			for (Customer currentCustomer : accountHolders) {
 				System.out.println(index + ": " + currentCustomer.getUserName());
 				index++;
@@ -133,6 +129,7 @@ public class Bank {
 			Customer myCustomer = accountHolders.get(customerChoice-1);
 
 			System.out.println("Which account would you like to access?");
+			System.out.println("Type \"exit\" to exit\n");
 			for(String accountName : myCustomer.customerAccounts.keySet()) {
 				System.out.println(accountName);
 			}
@@ -196,23 +193,21 @@ public class Bank {
 
 	public void writeBank (Bank bank) {
 		FileWriter bankWriter = null;
-		FileWriter accountWriter = null;
+		FileWriter custWriter = null;
 		try {
 			File bankFile = new File("bank.txt");
 			File accountFile = new File("customer-name-accounts.txt");
-			accountWriter = new FileWriter(accountFile);
 			bankWriter = new FileWriter(bankFile);
-			bankWriter.write("Account Holders: \n");
 			for (Customer myCustomers : accountHolders ){
 				bankWriter.write(myCustomers.getUserName() + ",");
-			}
-			bankWriter.write("Accounts in Bank: \n");
-			for (Customer myCustomer : accountHolders) {
-				for (HashMap.Entry<String, BankAccount> currAcct : myCustomer.customerAccounts.entrySet()) {
-					accountWriter.write("account.name=" + currAcct.getKey() + "\n" + "account.currentBalance=" + currAcct.getValue().getBalance() + "\n");
+				File customerFile = new File(myCustomers.getUserName() + ".txt");
+				custWriter = new FileWriter(customerFile);
+				for (HashMap.Entry<String, BankAccount> currAcct: myCustomers.customerAccounts.entrySet()){
+					custWriter.write("account.name=" + currAcct.getKey() + "\n" + "account.currentBalance=" + currAcct.getValue().getBalance() + "\n" + "account.type=" + currAcct.getValue().getType() + "\n");
+
 				}
+				custWriter.close();
 			}
-			accountWriter.close();
 			bankWriter.close();
 		} catch (Exception exception){
 			System.out.println("Something happened D'=");
@@ -222,16 +217,56 @@ public class Bank {
 				try {
 					bankWriter.close();
 				} catch (Exception ex){
+					System.out.println("Something DEFINITELY happened");
 					ex.printStackTrace();
 				}
 			}
 		}
 	}
 
-	public void readBank() {
-//		File bankFile = new File("bank.txt");
-//		Scanner fileScanner = new Scanner(bankFile);
-//		ArrayList<String> accountHolders = null;
+	public void readBank(ArrayList<Customer> accountHolders) {
+		try {
+			HashMap<String, BankAccount> customerAccounts = new HashMap<String, BankAccount>();
+			File bankFile = new File("bank.txt");
+			Scanner fileScanner = new Scanner(bankFile);
+			while(fileScanner.hasNext()){
+				String nextLine = fileScanner.nextLine();
+				String[] currName = nextLine.split(",");
+				for (String currentName : currName) {
+//					System.out.println(accountHolders.size());
+					Customer myCustomer = new Customer(currentName);
+					accountHolders.add(myCustomer);
+					File accountFile = new File(currentName + ".txt");
+					Scanner accountScanner = new Scanner(accountFile);
+					while(accountScanner.hasNext()) {
+						// fist line is account name
+						String accountName = accountScanner.nextLine().split("=")[1];
+						// second line is balance
+						double balance = Double.valueOf(accountScanner.nextLine().split("=")[1]);
+						// third line is type
+						int type = Integer.valueOf(accountScanner.nextLine().split("=")[1]);
+
+						if (type == 1) {
+							BankAccount myAccount = new Checking(accountName, balance, type);
+							customerAccounts.put(accountName, myAccount);
+						} else if (type == 2) {
+							BankAccount myAccount = new Savings(accountName, balance, type);
+							customerAccounts.put(accountName, myAccount);
+						} else if (type == 3) {
+							BankAccount myAccount = new Retirement(accountName, balance, type);
+							customerAccounts.put(accountName, myAccount);
+						}
+
+						System.out.println("Recovered account!");
+
+					}
+
+
+
+
+				}
+			}
+
 //		while (fileScanner.hasNext()) {
 //			String currentLine = fileScanner.nextLine();
 //			if (currentLine.startsWith("Account"))
@@ -240,5 +275,9 @@ public class Bank {
 //			}
 //
 //		}
+		} catch (IOException IoEx){
+			IoEx.printStackTrace();
+		}
+
 	}
 }

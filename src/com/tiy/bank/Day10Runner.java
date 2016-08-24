@@ -1,13 +1,17 @@
 package com.tiy.bank;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 /**
  * Created by Brett on 8/19/16.
  */
 public class Day10Runner {
+	public static boolean runInterestThread = true;
+
 	public static void main(String[] args) {
 		Scanner inputScanner = new Scanner(System.in);
 		Bank myBank = new Bank();
+		myBank.readBank(myBank.accountHolders);
 		System.out.println("Welcome to " + myBank.getBankName() + ", how may we assist you?");
 		System.out.println("What would you like to do?");
 		while(true){
@@ -30,9 +34,13 @@ public class Day10Runner {
 			}else if(menuChoice == 4) {
 				myBank.accountInteract();
 			}else if(menuChoice == 0) {
+				Day10Runner.runInterestThread = false;
 				myBank.writeBank(myBank);
 				break;
+
 			}
+
+//			runInterestThread = false;
 		}
 
 //		myBank.addCustomer();
@@ -42,7 +50,7 @@ public class Day10Runner {
 
 
 
-		myBank.writeBank(myBank);
+//		myBank.writeBank(myBank);
 
 
 

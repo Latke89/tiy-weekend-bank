@@ -7,9 +7,24 @@ public abstract class BankAccount{
 
 	private String accountName;
 	private double balance = 0.00;
+	private int type;
 
 	public String getAccountName() {
 		return accountName;
+	}
+
+//	public BankAccount(String accountName, double balance) {
+//		this.accountName = accountName;
+//		this.balance = balance;
+//	}
+
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 	public void setAccountName(String accountName) {
